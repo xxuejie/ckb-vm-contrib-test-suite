@@ -8,3 +8,6 @@
 [submodule "ckb-vm-bench-scripts"]
 	path = ckb-vm-bench-scripts
 	url = https://github.com/nervosnetwork/ckb-vm-bench-scripts
+[submodule "ckb-vm-for-tests"]
+	path = ckb-vm-for-tests
+	url = https://github.com/nervosnetwork/ckb-vm

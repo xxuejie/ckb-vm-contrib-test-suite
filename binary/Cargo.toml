@@ -6,9 +6,10 @@ edition = "2018"
 autobins = false
 
 [dependencies]
-ckb-vm-contrib = { path = "../ckb-vm-contrib", features = [] }
+ckb-vm-contrib = { path = "../ckb-vm-contrib", features = ["llvm-aot"] }
 ckb-vm = { git = "https://github.com/nervosnetwork/ckb-vm", rev = "f77f3d1" }
 ckb-vm-definitions = { git = "https://github.com/nervosnetwork/ckb-vm", rev = "f77f3d1" }
+tempfile = "3.3.0"
 
 [[bin]]
 name = "ast_interpreter64"
@@ -17,3 +18,7 @@ path = "src/ast_interpreter64.rs"
 [[bin]]
 name = "ast_interpreter32"
 path = "src/ast_interpreter32.rs"
+
+[[bin]]
+name = "llvm_aot64"
+path = "src/llvm_aot64.rs"
