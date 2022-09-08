@@ -35,7 +35,8 @@ fn main() {
     let mut machine =
         LlvmAotMachine::new(4 * 1024 * 1024, &aot_symbols).expect("create aot machine");
     machine.load_program(&code, &args).expect("load to run");
-    let result = machine.run().expect("run");
+    // TODO: we should aim at finishing all the tests in fast mode
+    let result = machine.run(false).expect("run");
 
     if result != 0 {
         println!("Error result: {:?}", result);
