@@ -25,3 +25,4 @@ jalr_bug
 jalr_bug_noc
 read_at_boundary64
 write_at_boundary64
+auipc_no_sign_extend

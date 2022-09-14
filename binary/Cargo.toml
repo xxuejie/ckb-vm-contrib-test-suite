@@ -22,3 +22,11 @@ path = "src/ast_interpreter32.rs"
 [[bin]]
 name = "llvm_aot64"
 path = "src/llvm_aot64.rs"
+
+[[bin]]
+name = "disassembler64"
+path = "src/disassembler64.rs"
+
+[[bin]]
+name = "disassembler32"
+path = "src/disassembler32.rs"
