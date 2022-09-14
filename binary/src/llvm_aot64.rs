@@ -12,8 +12,9 @@ fn main() {
     let args: Vec<Bytes> = args.into_iter().map(|a| a.into()).collect();
 
     LlvmCompilingMachine::initialize().expect("initialize");
-    let compiling_machine = LlvmCompilingMachine::load(&filename, &code, "test_suite_aot")
-        .expect("loading binary to compile");
+    let compiling_machine =
+        LlvmCompilingMachine::load(&filename, &code, "test_suite_aot", &(|_| 0))
+            .expect("loading binary to compile");
     let object_file = Builder::new().suffix(".o").tempfile().expect("tempfile");
     let object_path = object_file.path().to_str().expect("tempfile");
     let object = compiling_machine.aot(true).expect("aot");
