@@ -13,7 +13,7 @@ fn main() {
 
     LlvmCompilingMachine::initialize().expect("initialize");
     let compiling_machine =
-        LlvmCompilingMachine::load(&filename, &code, "test_suite_aot", &(|_| 0))
+        LlvmCompilingMachine::load(&filename, &code, "test_suite_aot", &(|_| 0), false)
             .expect("loading binary to compile");
     let object_file = Builder::new().suffix(".o").tempfile().expect("tempfile");
     let object_path = object_file.path().to_str().expect("tempfile");
