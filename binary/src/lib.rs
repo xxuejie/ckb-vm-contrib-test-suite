@@ -1,8 +1,8 @@
-use ckb_vm::{
+use ckb_vm_contrib::ast_interpreter::PC_INDEX;
+use ckb_vm_contrib::ckb_vm::{
     instructions::ast::Value, machine::VERSION1, Bytes, CoreMachine, Error, Machine, Memory, ISA_B,
     ISA_IMC, ISA_MOP,
 };
-use ckb_vm_contrib::ast_interpreter::PC_INDEX;
 use std::mem;
 use std::rc::Rc;
 

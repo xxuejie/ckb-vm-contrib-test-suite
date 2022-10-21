@@ -1,12 +1,12 @@
 use binary::{AstCoreMachine, Write};
-use ckb_vm::{
+use ckb_vm_contrib::ast_interpreter::interpret;
+use ckb_vm_contrib::ckb_vm::{
     decoder::build_decoder,
     instructions::execute,
     machine::{DefaultCoreMachine, DefaultMachineBuilder, VERSION1},
     memory::{sparse::SparseMemory, wxorx::WXorXMemory},
     Bytes, CoreMachine, Machine, Memory, Register, SupportMachine, ISA_B, ISA_IMC, ISA_MOP,
 };
-use ckb_vm_contrib::ast_interpreter::interpret;
 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();

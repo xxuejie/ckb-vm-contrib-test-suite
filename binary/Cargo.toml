@@ -7,8 +7,6 @@ autobins = false
 
 [dependencies]
 ckb-vm-contrib = { path = "../ckb-vm-contrib", features = ["llvm-aot"] }
-ckb-vm = "0.21.6"
-ckb-vm-definitions = "0.21.6"
 tempfile = "3.3.0"
 
 [[bin]]

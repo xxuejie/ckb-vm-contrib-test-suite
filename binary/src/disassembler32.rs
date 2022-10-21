@@ -1,4 +1,4 @@
-use ckb_vm::{
+use ckb_vm_contrib::ckb_vm::{
     decoder::build_decoder,
     instructions::{execute, instruction_length, set_instruction_length_n},
     machine::{DefaultCoreMachine, DefaultMachineBuilder, VERSION1},
