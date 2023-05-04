@@ -1,12 +1,11 @@
 #!/bin/bash
 set -ex
 
-if [ "x$RISCV" = "x" ]
+if [ ! command -v "riscv64-ckb-elf-gcc" ]
 then
-  echo "Please set the RISCV environment variable to your installed path."
+  echo "Please install ckb-contract-toolchain!."
   exit 1
 fi
-PATH=$PATH:$RISCV/bin
 
 # Inspired from https://stackoverflow.com/a/246128
 TOP="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -93,7 +92,7 @@ done
 # Build riscv-tests
 cd "$TOP/riscv-tests"
 autoconf
-./configure
+./configure --target=riscv64-ckb-elf
 make isa
 
 if [ "$RUNTESTS" -eq "1" ]
@@ -130,22 +129,22 @@ fi
 
 # TODO: more targets
 mkdir -p work
-find work -name "*.log" -delete && make RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=I TARGET_SIM="$AST_INTERPRETER64" $COMPLIANCE_TARGET
-find work -name "*.log" -delete && make RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=M TARGET_SIM="$AST_INTERPRETER64" $COMPLIANCE_TARGET
-find work -name "*.log" -delete && make RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=C TARGET_SIM="$AST_INTERPRETER64" $COMPLIANCE_TARGET
+find work -name "*.log" -delete && make RISCV_PREFIX=riscv64-ckb-elf- RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=I TARGET_SIM="$AST_INTERPRETER64" $COMPLIANCE_TARGET
+find work -name "*.log" -delete && make RISCV_PREFIX=riscv64-ckb-elf- RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=M TARGET_SIM="$AST_INTERPRETER64" $COMPLIANCE_TARGET
+find work -name "*.log" -delete && make RISCV_PREFIX=riscv64-ckb-elf- RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=C TARGET_SIM="$AST_INTERPRETER64" $COMPLIANCE_TARGET
 
-find work -name "*.log" -delete && make RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=I TARGET_SIM="$LLVM_AOT64" $COMPLIANCE_TARGET
-find work -name "*.log" -delete && make RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=M TARGET_SIM="$LLVM_AOT64" $COMPLIANCE_TARGET
-find work -name "*.log" -delete && make RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=C TARGET_SIM="$LLVM_AOT64" $COMPLIANCE_TARGET
+find work -name "*.log" -delete && make RISCV_PREFIX=riscv64-ckb-elf- RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=I TARGET_SIM="$LLVM_AOT64" $COMPLIANCE_TARGET
+find work -name "*.log" -delete && make RISCV_PREFIX=riscv64-ckb-elf- RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=M TARGET_SIM="$LLVM_AOT64" $COMPLIANCE_TARGET
+find work -name "*.log" -delete && make RISCV_PREFIX=riscv64-ckb-elf- RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=C TARGET_SIM="$LLVM_AOT64" $COMPLIANCE_TARGET
 
-find work -name "*.log" -delete && make RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=I TARGET_SIM="$DISASSEMBLER64" $COMPLIANCE_TARGET
-find work -name "*.log" -delete && make RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=M TARGET_SIM="$DISASSEMBLER64" $COMPLIANCE_TARGET
-find work -name "*.log" -delete && make RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=C TARGET_SIM="$DISASSEMBLER64" $COMPLIANCE_TARGET
+find work -name "*.log" -delete && make RISCV_PREFIX=riscv64-ckb-elf- RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=I TARGET_SIM="$DISASSEMBLER64" $COMPLIANCE_TARGET
+find work -name "*.log" -delete && make RISCV_PREFIX=riscv64-ckb-elf- RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=M TARGET_SIM="$DISASSEMBLER64" $COMPLIANCE_TARGET
+find work -name "*.log" -delete && make RISCV_PREFIX=riscv64-ckb-elf- RISCV_TARGET=ckb-vm XLEN=64 RISCV_DEVICE=C TARGET_SIM="$DISASSEMBLER64" $COMPLIANCE_TARGET
 
 # Even though ckb-vm-bench-scripts are mainly used for benchmarks, they also
 # contains sophisticated scripts which make good tests
 cd "$TOP/ckb-vm-bench-scripts"
-make
+make CC=riscv64-ckb-elf-gcc DUMP=riscv64-ckb-elf-objdump HOST=riscv64-ckb-elf
 
 if [ "$RUNTESTS" -eq "1" ]
 then
