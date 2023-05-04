@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-if [ ! command -v "riscv64-ckb-elf-gcc" ]
+if [ ! $(command -v "riscv64-ckb-elf-gcc") ]
 then
   echo "Please install ckb-contract-toolchain!."
   exit 1
