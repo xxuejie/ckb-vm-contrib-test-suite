@@ -23,7 +23,7 @@ fn main() {
     std::fs::write(object_path, &object).expect("write");
     let t1 = SystemTime::now();
     let duration = t1.duration_since(t0).expect("time went backwards");
-    println!("Time to generate object: {:?}", duration);
+    eprintln!("Time to generate object: {:?}", duration);
 
     let library_file = Builder::new().suffix(".so").tempfile().expect("tempfile");
     let library_path = library_file.path().to_str().expect("tempfile");
@@ -45,7 +45,7 @@ fn main() {
     let result = machine.run().expect("run");
     let t1 = SystemTime::now();
     let duration = t1.duration_since(t0).expect("time went backwards");
-    println!("Time to run: {:?}", duration);
+    eprintln!("Time to run: {:?}", duration);
 
     if result != 0 {
         println!("Error result: {:?}", result);
