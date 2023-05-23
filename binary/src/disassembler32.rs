@@ -3,7 +3,7 @@ use ckb_vm_contrib::ckb_vm::{
     instructions::{execute, instruction_length, set_instruction_length_n},
     machine::{DefaultCoreMachine, DefaultMachineBuilder, VERSION1},
     memory::{sparse::SparseMemory, wxorx::WXorXMemory},
-    Bytes, CoreMachine, Register, SupportMachine, ISA_B, ISA_IMC,
+    Bytes, CoreMachine, Register, SupportMachine, ISA_A, ISA_B, ISA_IMC,
 };
 use ckb_vm_contrib::{assembler::parse, printer::InstructionPrinter};
 use std::convert::TryInto;
@@ -15,7 +15,7 @@ fn main() {
 
     let mut machine1 = {
         let core_machine = DefaultCoreMachine::<u32, WXorXMemory<SparseMemory<u32>>>::new(
-            ISA_IMC | ISA_B,
+            ISA_IMC | ISA_A | ISA_B,
             VERSION1,
             u64::max_value(),
         );
@@ -25,7 +25,7 @@ fn main() {
     };
     let mut machine2 = {
         let core_machine = DefaultCoreMachine::<u32, WXorXMemory<SparseMemory<u32>>>::new(
-            ISA_IMC | ISA_B,
+            ISA_IMC | ISA_A | ISA_B,
             VERSION1,
             u64::max_value(),
         );

@@ -8,6 +8,9 @@ use std::rc::Rc;
 
 #[derive(Debug, Clone)]
 pub enum Write {
+    Lr {
+        value: Value,
+    },
     Memory {
         address: Value,
         size: u8,
@@ -128,6 +131,18 @@ impl CoreMachine for AstCoreMachine {
 impl Memory for AstCoreMachine {
     type REG = Value;
 
+    fn new() -> Self {
+        unreachable!()
+    }
+
+    fn new_with_memory(_memory_size: usize) -> Self {
+        unreachable!()
+    }
+
+    fn memory_size(&self) -> usize {
+        unreachable!()
+    }
+
     fn init_pages(
         &mut self,
         _addr: u64,
@@ -156,6 +171,10 @@ impl Memory for AstCoreMachine {
     }
 
     fn store_bytes(&mut self, _addr: u64, _value: &[u8]) -> Result<(), Error> {
+        unreachable!()
+    }
+
+    fn load_bytes(&mut self, _addr: u64, _size: u64) -> Result<Bytes, Error> {
         unreachable!()
     }
 
@@ -217,6 +236,16 @@ impl Memory for AstCoreMachine {
             value: value.clone(),
         });
         Ok(())
+    }
+
+    fn lr(&self) -> &Value {
+        &Value::Lr
+    }
+
+    fn set_lr(&mut self, value: &Value) {
+        self.writes.push(Write::Lr {
+            value: value.clone(),
+        });
     }
 }
 

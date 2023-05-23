@@ -5,7 +5,7 @@ use ckb_vm_contrib::ckb_vm::{
     instructions::execute,
     machine::{DefaultCoreMachine, DefaultMachineBuilder, VERSION1},
     memory::{sparse::SparseMemory, wxorx::WXorXMemory},
-    Bytes, CoreMachine, Machine, Memory, Register, SupportMachine, ISA_B, ISA_IMC, ISA_MOP,
+    Bytes, CoreMachine, Machine, Memory, Register, SupportMachine, ISA_A, ISA_B, ISA_IMC, ISA_MOP,
 };
 
 fn main() {
@@ -14,7 +14,7 @@ fn main() {
     let args: Vec<Bytes> = args.into_iter().map(|a| a.into()).collect();
 
     let core_machine = DefaultCoreMachine::<u64, WXorXMemory<SparseMemory<u64>>>::new(
-        ISA_IMC | ISA_B | ISA_MOP,
+        ISA_IMC | ISA_A | ISA_B | ISA_MOP,
         VERSION1,
         u64::max_value(),
     );
@@ -39,10 +39,15 @@ fn main() {
             .map(|pc| interpret(&pc, &mut machine).expect("interpret"));
         let mut memory_writes = vec![];
         let mut register_writes = vec![];
+        let mut lr_write = None;
         let mut ecall = false;
         let mut ebreak = false;
         for write in ast_machine.take_writes() {
             match write {
+                Write::Lr { value } => {
+                    let value = interpret(&value, &mut machine).expect("interpret");
+                    lr_write = Some(value);
+                }
                 Write::Memory {
                     address,
                     size,
@@ -86,6 +91,9 @@ fn main() {
                     .expect("store"),
                 _ => panic!("Invalid store size: {}", size),
             }
+        }
+        if let Some(value) = lr_write {
+            machine.memory_mut().set_lr(&value);
         }
         for (index, value) in register_writes {
             machine.set_register(index, value);
